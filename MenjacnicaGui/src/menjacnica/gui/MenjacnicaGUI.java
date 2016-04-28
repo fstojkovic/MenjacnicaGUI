@@ -8,15 +8,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.awt.Dimension;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.JScrollPane;
@@ -236,6 +233,12 @@ public class MenjacnicaGUI extends JFrame {
 			scrollPane_1.setViewportView(getTable());
 		}
 		return scrollPane_1;
+	}
+
+	public void osveziTabelu() {
+		MenjacnicaTableModel model = (MenjacnicaTableModel) table.getModel();
+		model.ucitajValute(GuiKontroler.vratiSveValute());
+
 	}
 
 }

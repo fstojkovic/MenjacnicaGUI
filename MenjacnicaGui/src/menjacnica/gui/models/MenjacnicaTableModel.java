@@ -15,6 +15,12 @@ public class MenjacnicaTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private final String[] kolone = new String[] { "Sifra", "Skraceni naziv", "Prodajni", "Srednji", "Kupovni",
 			"Naziv" };
+
+	@Override
+	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		return false;
+	}
+
 	private List<Valuta> valute = new LinkedList<Valuta>();
 
 	public MenjacnicaTableModel() {
@@ -56,7 +62,7 @@ public class MenjacnicaTableModel extends AbstractTableModel {
 		return kolone[column];
 	}
 
-	public void staviSveValuteUModel(List<Valuta> valute) {
+	public void ucitajValute(List<Valuta> valute) {
 		this.valute = valute;
 		fireTableDataChanged();
 	}
@@ -64,5 +70,6 @@ public class MenjacnicaTableModel extends AbstractTableModel {
 	public Valuta vratiValutu(int index) {
 		return valute.get(index);
 	}
+
 
 }
