@@ -1,7 +1,6 @@
 package menjacnica.gui;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,18 +8,31 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.io.File;
 import java.awt.Dimension;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
+
+import menjacnica.gui.models.MenjacnicaTableModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MenjacnicaGUI extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JMenuBar menuBar;
 	private JMenu mnNewMenu;
@@ -35,7 +47,7 @@ public class MenjacnicaGUI extends JFrame {
 	private JButton btnIzbrisiKurs;
 	private JButton btnIzvrsiZamenu;
 	private JPanel panelCentar;
-	private JTextField textField;
+	private JTextField jtfStatus;
 	private JScrollPane scrollPane;
 	private JTable table;
 	private JScrollPane scrollPane_1;
@@ -43,7 +55,7 @@ public class MenjacnicaGUI extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	
+
 	/**
 	 * Create the frame.
 	 */
@@ -51,7 +63,7 @@ public class MenjacnicaGUI extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MenjacnicaGUI.class.getResource("/icons/Penguins.jpg")));
 		setTitle("Menjacnica");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 626, 439);
+		setBounds(100, 100, 670, 483);
 		setJMenuBar(getMenuBar_1());
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -70,6 +82,7 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return menuBar;
 	}
+
 	private JMenu getMnNewMenu() {
 		if (mnNewMenu == null) {
 			mnNewMenu = new JMenu("File");
@@ -79,26 +92,46 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return mnNewMenu;
 	}
+
 	private JMenuItem getMntmOpen() {
 		if (mntmOpen == null) {
 			mntmOpen = new JMenuItem("Open");
-			mntmOpen.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/javax/swing/plaf/metal/icons/ocean/directory.gif")));
+			mntmOpen.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					GuiKontroler.ucitajIzfajla();
+				}
+			});
+			mntmOpen.setIcon(new ImageIcon(
+					MenjacnicaGUI.class.getResource("/javax/swing/plaf/metal/icons/ocean/directory.gif")));
+			mntmOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		}
 		return mntmOpen;
+
 	}
+
 	private JMenuItem getMntmSave() {
 		if (mntmSave == null) {
 			mntmSave = new JMenuItem("Save");
-			mntmSave.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/javax/swing/plaf/metal/icons/ocean/floppy.gif")));
+			mntmSave.setIcon(
+					new ImageIcon(MenjacnicaGUI.class.getResource("/javax/swing/plaf/metal/icons/ocean/floppy.gif")));
+			mntmSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 		}
 		return mntmSave;
 	}
+
 	private JMenuItem getMntmExit() {
 		if (mntmExit == null) {
 			mntmExit = new JMenuItem("Exit");
+			mntmExit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GuiKontroler.exit();
+				}
+			});
+			mntmExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.ALT_MASK));
 		}
 		return mntmExit;
 	}
+
 	private JMenu getMnHelp() {
 		if (mnHelp == null) {
 			mnHelp = new JMenu("Help");
@@ -106,12 +139,19 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return mnHelp;
 	}
+
 	private JMenuItem getMntmAbout() {
 		if (mntmAbout == null) {
 			mntmAbout = new JMenuItem("About");
+			mntmAbout.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					GuiKontroler.about();
+				}
+			});
 		}
 		return mntmAbout;
 	}
+
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
@@ -122,6 +162,7 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return panel;
 	}
+
 	private JPanel getPanelJug() {
 		if (panelJug == null) {
 			panelJug = new JPanel();
@@ -131,24 +172,28 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return panelJug;
 	}
+
 	private JButton getBtnDodajKurs() {
 		if (btnDodajKurs == null) {
 			btnDodajKurs = new JButton("Dodaj kurs");
 		}
 		return btnDodajKurs;
 	}
+
 	private JButton getBtnIzbrisiKurs() {
 		if (btnIzbrisiKurs == null) {
 			btnIzbrisiKurs = new JButton("Izbrisi kurs");
 		}
 		return btnIzbrisiKurs;
 	}
+
 	private JButton getBtnIzvrsiZamenu() {
 		if (btnIzvrsiZamenu == null) {
 			btnIzvrsiZamenu = new JButton("Izvrsi Zamenu");
 		}
 		return btnIzvrsiZamenu;
 	}
+
 	private JPanel getPanelCentar() {
 		if (panelCentar == null) {
 			panelCentar = new JPanel();
@@ -157,34 +202,34 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return panelCentar;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setBorder(new TitledBorder(null, "STATUS", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			textField.setColumns(10);
+
+	public JTextField getJtfStatus() {
+		if (jtfStatus == null) {
+			jtfStatus = new JTextField();
+			jtfStatus.setBorder(new TitledBorder(null, "STATUS", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			jtfStatus.setColumns(10);
 		}
-		return textField;
+		return jtfStatus;
 	}
+
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setViewportView(getTextField());
+			scrollPane.setViewportView(getJtfStatus());
 		}
 		return scrollPane;
 	}
+
 	private JTable getTable() {
 		if (table == null) {
 			table = new JTable();
-			table.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-					"Sifra", "Skraceni naziv", "Prodajni", "Srednji", "Kupovni", "Naziv"
-				}
-			));
+			table.setModel(new MenjacnicaTableModel());
+			table.setFillsViewportHeight(true);
+
 		}
 		return table;
 	}
+
 	private JScrollPane getScrollPane_1() {
 		if (scrollPane_1 == null) {
 			scrollPane_1 = new JScrollPane();
@@ -192,4 +237,5 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return scrollPane_1;
 	}
+
 }
