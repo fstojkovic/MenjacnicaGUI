@@ -14,5 +14,5 @@ public interface MenjacnicaInterface {
 
 	public void sacuvajUFajl(String putanja);
 
-	double izvrsiTransakciju(Valuta valuta, boolean prodaja, double iznos);
+
 }
