@@ -21,6 +21,7 @@ import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
+
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
@@ -35,7 +36,7 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 
 import menjacnica.Menjacnica;
-
+import menjacnica.Valuta;
 import menjacnica.gui.models.MenjacnicaTableModel;
 
 import java.awt.event.ActionListener;
@@ -126,9 +127,39 @@ public class MenjacnicaGUI extends JFrame {
 	private JButton getBtnObrisiKurs() {
 		if (btnObrisiKurs == null) {
 			btnObrisiKurs = new JButton("Obrisi kurs");
+			btnObrisiKurs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					int red = table.getSelectedRow();
+					if (red == -1) {
+						JOptionPane.showMessageDialog(contentPane, "Izaberite kurs za brisanje!", "Greska",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						int opcija = JOptionPane.showConfirmDialog(null,
+								"Da li ste sigurni da zelite da izbrisete izbrani kurs?", "Potvrda brisanja",
+								JOptionPane.YES_NO_OPTION);
+						if (opcija == JOptionPane.YES_OPTION) {
+
+							MenjacnicaTableModel model = (MenjacnicaTableModel) (table.getModel());
+							sistem.izbrisiValutu(model.vratiValutu(table.getSelectedRow()));
+
+							JOptionPane.showMessageDialog(null, "Kurs uspesno obrisan", "Komanda izvrsena",
+									JOptionPane.INFORMATION_MESSAGE);
+
+							jtfStatus.append("Izbrisan je red sa indeksom: " + (red + 1) + '\n');
+
+						} else {
+							JOptionPane.showMessageDialog(contentPane, "Kurs nije obrisan", "Poruka",
+									JOptionPane.ERROR_MESSAGE);
+						}
+
+						prikaziSveValute();
+					}
+				}
+			});
 			btnObrisiKurs.setPreferredSize(new Dimension(140, 25));
 		}
 		return btnObrisiKurs;
+
 	}
 
 	private JButton getBtnIzvrsiZamenu() {
@@ -251,6 +282,7 @@ public class MenjacnicaGUI extends JFrame {
 				File file = fc.getSelectedFile();
 
 				sistem.sacuvajUFajl(file.getAbsolutePath());
+				jtfStatus.append(" Sacuvan fajl: " + file.getAbsolutePath() + '\n');
 			}
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(contentPane, e1.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
@@ -320,7 +352,7 @@ public class MenjacnicaGUI extends JFrame {
 		return panelCentar;
 	}
 
-	private JTable getTable_1() {
+	public JTable getTable_1() {
 		if (table == null) {
 			table = new JTable();
 			table.setModel(new MenjacnicaTableModel());

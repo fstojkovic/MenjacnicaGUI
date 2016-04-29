@@ -3,7 +3,6 @@ package menjacnica.gui;
 import java.awt.EventQueue;
 import javax.swing.JOptionPane;
 
-
 public class GuiKontroler {
 
 	private static MenjacnicaGUI glavniProzor;
@@ -38,7 +37,5 @@ public class GuiKontroler {
 		JOptionPane.showMessageDialog(glavniProzor.getContentPane(), poruka, "Podaci o autoru",
 				JOptionPane.PLAIN_MESSAGE);
 	}
-
-	
 
 }
