@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import menjacnica.Menjacnica;
 import menjacnica.Valuta;
 
 import java.awt.GridLayout;
@@ -178,7 +179,7 @@ public class DodajKursGUI extends JFrame {
 			valuta.setSrednji(Double.parseDouble(jtfSrednjiKurs.getText()));
 
 			glavniProzor.sistem.dodajValutu(valuta);
-			glavniProzor.getJtfStatus().append("Uneli ste valutu: "+valuta.toString()+'\n');
+			glavniProzor.getJtfStatus().append("Uneli ste valutu: " + valuta.toString() + '\n');
 			glavniProzor.prikaziSveValute();
 
 			dispose();

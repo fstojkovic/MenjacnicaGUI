@@ -37,5 +37,7 @@ public class GuiKontroler {
 		JOptionPane.showMessageDialog(glavniProzor.getContentPane(), poruka, "Podaci o autoru",
 				JOptionPane.PLAIN_MESSAGE);
 	}
+	
+	
 
 }

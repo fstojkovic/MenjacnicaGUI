@@ -14,5 +14,4 @@ public interface MenjacnicaInterface {
 
 	public void sacuvajUFajl(String putanja);
 
-
 }

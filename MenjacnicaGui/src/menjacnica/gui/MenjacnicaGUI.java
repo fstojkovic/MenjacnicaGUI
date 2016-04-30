@@ -36,7 +36,7 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 
 import menjacnica.Menjacnica;
-import menjacnica.Valuta;
+
 import menjacnica.gui.models.MenjacnicaTableModel;
 
 import java.awt.event.ActionListener;
@@ -44,7 +44,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.awt.Cursor;
 
 public class MenjacnicaGUI extends JFrame {
 
@@ -129,31 +128,7 @@ public class MenjacnicaGUI extends JFrame {
 			btnObrisiKurs = new JButton("Obrisi kurs");
 			btnObrisiKurs.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					int red = table.getSelectedRow();
-					if (red == -1) {
-						JOptionPane.showMessageDialog(contentPane, "Izaberite kurs za brisanje!", "Greska",
-								JOptionPane.ERROR_MESSAGE);
-					} else {
-						int opcija = JOptionPane.showConfirmDialog(null,
-								"Da li ste sigurni da zelite da izbrisete izbrani kurs?", "Potvrda brisanja",
-								JOptionPane.YES_NO_OPTION);
-						if (opcija == JOptionPane.YES_OPTION) {
-
-							MenjacnicaTableModel model = (MenjacnicaTableModel) (table.getModel());
-							sistem.izbrisiValutu(model.vratiValutu(table.getSelectedRow()));
-
-							JOptionPane.showMessageDialog(null, "Kurs uspesno obrisan", "Komanda izvrsena",
-									JOptionPane.INFORMATION_MESSAGE);
-
-							jtfStatus.append("Izbrisan je red sa indeksom: " + (red + 1) + '\n');
-
-						} else {
-							JOptionPane.showMessageDialog(contentPane, "Kurs nije obrisan", "Poruka",
-									JOptionPane.ERROR_MESSAGE);
-						}
-
-						prikaziSveValute();
-					}
+					obrisiKurs();
 				}
 			});
 			btnObrisiKurs.setPreferredSize(new Dimension(140, 25));
@@ -165,6 +140,11 @@ public class MenjacnicaGUI extends JFrame {
 	private JButton getBtnIzvrsiZamenu() {
 		if (btnIzvrsiZamenu == null) {
 			btnIzvrsiZamenu = new JButton("Izvrsi zamenu");
+			btnIzvrsiZamenu.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					prikaziIzvrsiZamenuGUI();
+				}
+			});
 			btnIzvrsiZamenu.setPreferredSize(new Dimension(140, 25));
 		}
 		return btnIzvrsiZamenu;
@@ -395,6 +375,11 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem getMntmObrisiKurs() {
 		if (mntmObrisiKurs == null) {
 			mntmObrisiKurs = new JMenuItem("Obrisi kurs");
+			mntmObrisiKurs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					obrisiKurs();
+				}
+			});
 		}
 		return mntmObrisiKurs;
 	}
@@ -402,8 +387,53 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem getMntmIzvrsiZamenu() {
 		if (mntmIzvrsiZamenu == null) {
 			mntmIzvrsiZamenu = new JMenuItem("Izvrsi zamenu");
+			mntmIzvrsiZamenu.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					prikaziIzvrsiZamenuGUI();
+				}
+			});
 		}
 		return mntmIzvrsiZamenu;
+	}
+
+	private void obrisiKurs() {
+		int red = table.getSelectedRow();
+		if (red == -1) {
+			JOptionPane.showMessageDialog(contentPane, "Izaberite kurs za brisanje!", "Greska",
+					JOptionPane.ERROR_MESSAGE);
+		} else {
+			int opcija = JOptionPane.showConfirmDialog(null, "Da li ste sigurni da zelite da izbrisete izbrani kurs?",
+					"Potvrda brisanja", JOptionPane.YES_NO_OPTION);
+			if (opcija == JOptionPane.YES_OPTION) {
+
+				MenjacnicaTableModel model = (MenjacnicaTableModel) (table.getModel());
+				sistem.izbrisiValutu(model.vratiValutu(table.getSelectedRow()));
+
+				JOptionPane.showMessageDialog(null, "Kurs uspesno obrisan", "Komanda izvrsena",
+						JOptionPane.INFORMATION_MESSAGE);
+
+				jtfStatus.append("Izbrisan je red sa indeksom: " + (red + 1) + '\n');
+
+			} else {
+				JOptionPane.showMessageDialog(contentPane, "Kurs nije obrisan", "Poruka", JOptionPane.ERROR_MESSAGE);
+			}
+
+			prikaziSveValute();
+		}
+	}
+
+	private void prikaziIzvrsiZamenuGUI() {
+		if (table.getSelectedRow() != -1) {
+			MenjacnicaTableModel model = (MenjacnicaTableModel) (table.getModel());
+			
+			IzvrsiZamenuGUI prozor = new IzvrsiZamenuGUI(this, model.vratiValutu(table.getSelectedRow()));
+			
+			prozor.setLocationRelativeTo(contentPane);
+			prozor.setVisible(true);
+		} else {
+			JOptionPane.showMessageDialog(contentPane, "Izaberite kurs za zamenu!", "Greska",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 }

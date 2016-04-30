@@ -8,14 +8,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 
-public class Menjacnica implements MenjacnicaInterface{
+public class Menjacnica implements MenjacnicaInterface {
 
-	 private LinkedList<Valuta> kursnaLista = new LinkedList<Valuta>();
+	private LinkedList<Valuta> kursnaLista = new LinkedList<Valuta>();
 
 	@Override
 	public void dodajValutu(Valuta valuta) {
 		if (valuta == null)
-			throw new RuntimeException("Valuta je null");
+			throw new RuntimeException("Valuta ne sme biti null");
 
 		if (kursnaLista.contains(valuta))
 			throw new RuntimeException("Valuta je vec uneta u kursnu listu");
@@ -31,21 +31,17 @@ public class Menjacnica implements MenjacnicaInterface{
 		kursnaLista.remove(valuta);
 	}
 
-
 	@Override
 	public LinkedList<Valuta> vratiSveValute() {
 		return kursnaLista;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void ucitajIzFajla(String putanja) {
 		try {
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(putanja)));
 
-			LinkedList<Valuta> kursnaLista2 = (LinkedList<Valuta>) (in.readObject());
-			kursnaLista.clear();
-			kursnaLista.addAll(kursnaLista2);
+			kursnaLista = (LinkedList<Valuta>) (in.readObject());
 
 			in.close();
 		} catch (Exception e) {
