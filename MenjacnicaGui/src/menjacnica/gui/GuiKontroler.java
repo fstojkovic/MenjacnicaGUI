@@ -1,7 +1,15 @@
 package menjacnica.gui;
 
 import java.awt.EventQueue;
+import java.io.File;
+import java.util.List;
+
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+import menjacnica.Menjacnica;
+import menjacnica.MenjacnicaInterface;
+import menjacnica.Valuta;
 
 public class GuiKontroler {
 
@@ -11,6 +19,7 @@ public class GuiKontroler {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+
 					glavniProzor = new MenjacnicaGUI();
 					glavniProzor.setVisible(true);
 					glavniProzor.setLocationRelativeTo(null);
@@ -37,7 +46,5 @@ public class GuiKontroler {
 		JOptionPane.showMessageDialog(glavniProzor.getContentPane(), poruka, "Podaci o autoru",
 				JOptionPane.PLAIN_MESSAGE);
 	}
-	
-	
 
 }

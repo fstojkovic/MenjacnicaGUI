@@ -41,13 +41,12 @@ public class IzvrsiZamenuGUI extends JFrame {
 	private JButton btnOdustani;
 	private JTextField jtfIznos;
 	private JSlider slider;
-	private final ButtonGroup buttonGroup = new ButtonGroup(); // Moguce
-																// check samo
+	private final ButtonGroup buttonGroup = new ButtonGroup(); // Check samo
 																// jedan radio
 																// button
 
 	private MenjacnicaGUI glavniProzor;
-	private Menjacnica sistem;
+
 	private Valuta valuta;
 	private JComboBox comboBox;
 
@@ -78,7 +77,6 @@ public class IzvrsiZamenuGUI extends JFrame {
 		contentPane.add(getSlider());
 		contentPane.add(getComboBox());
 
-		// podesavanje
 		this.glavniProzor = glavniProzor;
 		this.valuta = valuta;
 
@@ -249,7 +247,7 @@ public class IzvrsiZamenuGUI extends JFrame {
 			dispose();
 
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(contentPane, "Morate da unesete iznos", "Greska", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(contentPane, "Morate da unesete iznos!", "Greska", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

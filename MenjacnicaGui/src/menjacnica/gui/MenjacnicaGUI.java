@@ -11,11 +11,11 @@ import javax.swing.JTable;
 import java.awt.Toolkit;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-import javax.swing.JFileChooser;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
@@ -162,7 +162,7 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenu getMnFile() {
 		if (mnFile == null) {
 			mnFile = new JMenu("File");
-			mnFile.add(getMntmNew());
+			mnFile.add(getMntmOpen());
 			mnFile.add(getMntmSave());
 			mnFile.add(getMntmExit());
 		}
@@ -178,7 +178,7 @@ public class MenjacnicaGUI extends JFrame {
 		return mnAbout;
 	}
 
-	private JMenuItem getMntmNew() {
+	private JMenuItem getMntmOpen() {
 		if (mntmOpen == null) {
 			mntmOpen = new JMenuItem("Open");
 			mntmOpen.addActionListener(new ActionListener() {
@@ -253,39 +253,7 @@ public class MenjacnicaGUI extends JFrame {
 		});
 	}
 
-	private void sacuvajUFajl() {
-		try {
-			JFileChooser fc = new JFileChooser();
-			int returnVal = fc.showSaveDialog(contentPane);
-
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				File file = fc.getSelectedFile();
-
-				sistem.sacuvajUFajl(file.getAbsolutePath());
-				jtfStatus.append(" Sacuvan fajl: " + file.getAbsolutePath() + '\n');
-			}
-		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(contentPane, e1.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-	private void ucitajIzFajla() {
-		try {
-			JFileChooser fc = new JFileChooser();
-			int vrednost = fc.showOpenDialog(contentPane);
-
-			if (vrednost == JFileChooser.APPROVE_OPTION) {
-				File file = fc.getSelectedFile();
-				sistem.ucitajIzFajla(file.getAbsolutePath());
-				jtfStatus.append(" Ucitan fajl: " + file.getAbsolutePath() + '\n');
-				prikaziSveValute();
-			}
-		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(contentPane, e1.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-	protected void prikaziSveValute() {
+	public void osveziTabelu() {
 		MenjacnicaTableModel model = (MenjacnicaTableModel) (table.getModel());
 		model.ucitajValute(sistem.vratiSveValute());
 
@@ -418,21 +386,54 @@ public class MenjacnicaGUI extends JFrame {
 				JOptionPane.showMessageDialog(contentPane, "Kurs nije obrisan", "Poruka", JOptionPane.ERROR_MESSAGE);
 			}
 
-			prikaziSveValute();
+			osveziTabelu();
 		}
 	}
 
 	private void prikaziIzvrsiZamenuGUI() {
 		if (table.getSelectedRow() != -1) {
 			MenjacnicaTableModel model = (MenjacnicaTableModel) (table.getModel());
-			
+
 			IzvrsiZamenuGUI prozor = new IzvrsiZamenuGUI(this, model.vratiValutu(table.getSelectedRow()));
-			
+
 			prozor.setLocationRelativeTo(contentPane);
 			prozor.setVisible(true);
 		} else {
 			JOptionPane.showMessageDialog(contentPane, "Izaberite kurs za zamenu!", "Greska",
 					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void ucitajIzFajla() {
+		try {
+			JFileChooser fc = new JFileChooser();
+			int vrednost = fc.showOpenDialog(contentPane);
+
+			if (vrednost == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				sistem.ucitajIzFajla(file.getAbsolutePath());
+				osveziTabelu();
+				jtfStatus.append(" Ucitan fajl: " + file.getAbsolutePath() + '\n');
+
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(contentPane, e.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void sacuvajUFajl() {
+		try {
+			JFileChooser fc = new JFileChooser();
+			int vrednost = fc.showSaveDialog(contentPane);
+
+			if (vrednost == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+
+				sistem.sacuvajUFajl(file.getAbsolutePath());
+				jtfStatus.append(" Sacuvan fajl: " + file.getAbsolutePath() + '\n');
+			}
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(contentPane, e1.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

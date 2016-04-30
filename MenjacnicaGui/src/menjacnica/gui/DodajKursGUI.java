@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import menjacnica.Menjacnica;
 import menjacnica.Valuta;
 
 import java.awt.GridLayout;
@@ -170,7 +169,9 @@ public class DodajKursGUI extends JFrame {
 	private void unesiKurs() {
 		try {
 			Valuta valuta = new Valuta();
-
+			
+			
+			
 			valuta.setNaziv(jtfNaziv.getText());
 			valuta.setSkraceniNaziv(jtfSkraceniNaziv.getText());
 			valuta.setSifra(Integer.parseInt(jtfSifra.getText()));
@@ -178,9 +179,12 @@ public class DodajKursGUI extends JFrame {
 			valuta.setKupovni(Double.parseDouble(jtfKupovniKurs.getText()));
 			valuta.setSrednji(Double.parseDouble(jtfSrednjiKurs.getText()));
 
+			if(jtfNaziv.getText().isEmpty() || jtfSkraceniNaziv.getText().isEmpty()){
+				throw new Exception("Sva polja moraju biti popunjena!");
+			}
 			glavniProzor.sistem.dodajValutu(valuta);
 			glavniProzor.getJtfStatus().append("Uneli ste valutu: " + valuta.toString() + '\n');
-			glavniProzor.prikaziSveValute();
+			glavniProzor.osveziTabelu();
 
 			dispose();
 		} catch (Exception e) {

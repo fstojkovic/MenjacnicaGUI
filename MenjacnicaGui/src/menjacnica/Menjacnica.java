@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 
+
 public class Menjacnica implements MenjacnicaInterface {
 
 	private LinkedList<Valuta> kursnaLista = new LinkedList<Valuta>();
@@ -41,7 +42,9 @@ public class Menjacnica implements MenjacnicaInterface {
 		try {
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(putanja)));
 
-			kursnaLista = (LinkedList<Valuta>) (in.readObject());
+			LinkedList<Valuta> kursnaLista2 = (LinkedList<Valuta>) (in.readObject());
+			kursnaLista.clear();
+			kursnaLista.addAll(kursnaLista2);
 
 			in.close();
 		} catch (Exception e) {
@@ -61,7 +64,5 @@ public class Menjacnica implements MenjacnicaInterface {
 			throw new RuntimeException(e);
 		}
 	}
-
-
 
 }
